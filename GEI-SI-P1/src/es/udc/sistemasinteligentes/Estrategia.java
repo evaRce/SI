@@ -1,17 +1,16 @@
-package es.udc.sistemasinteligentes.ejemplo;
-
-import es.udc.sistemasinteligentes.*;
+package es.udc.sistemasinteligentes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Estrategia4 implements EstrategiaBusqueda {
+public class Estrategia implements  EstrategiaBusqueda{
+    public Estrategia(){
 
-    public Estrategia4() {
     }
 
+
     @Override
-    public Nodo[] soluciona(ProblemaBusqueda p) throws Exception{
+    public Nodo[] reconstruye_sol(ProblemaBusqueda p) throws Exception{
         ArrayList<Estado> explorados = new ArrayList<Estado>();
         Estado estadoActual = p.getEstadoInicial();
         explorados.add(estadoActual);
@@ -63,9 +62,4 @@ public class Estrategia4 implements EstrategiaBusqueda {
         }
         return arrNodo;
     }
-
-    public List<Nodo> reconstruye_sol(Nodo nodo){
-
-    }
-
 }

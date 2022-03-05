@@ -18,9 +18,14 @@ public class Main {
 
         EstrategiaBusqueda buscador = new Estrategia4();
         //System.out.println(buscador.reconstruye_sol(aspiradora));
-        List<Nodo> auxList = new ArrayList<Nodo>(buscador.reconstruye_sol(aspiradora));
+        /*List<Nodo> auxList = new ArrayList<Nodo>(buscador.reconstruye_sol(aspiradora));
         System.out.println();
         for(Nodo n : auxList)
-            System.out.println(n.toString());
+            System.out.println(n.toString());*/
+        Nodo arrNodo[] = buscador.reconstruye_sol(aspiradora);
+        for(int i = 0; i < arrNodo.length; i++){
+            System.out.println("arrNodo[" + i + "] = " + arrNodo[i] );
+        }
+        
     }
 }
