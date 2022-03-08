@@ -3,6 +3,7 @@ package es.udc.sistemasinteligentes.ejemplo;
 import es.udc.sistemasinteligentes.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Estrategia4 implements EstrategiaBusqueda {
@@ -15,11 +16,13 @@ public class Estrategia4 implements EstrategiaBusqueda {
         ArrayList<Estado> explorados = new ArrayList<Estado>();
         Estado estadoActual = p.getEstadoInicial();
         explorados.add(estadoActual);
-        List<Nodo> listaNodos = new ArrayList<Nodo>();
+
+        List<Nodo> listNodos = new ArrayList<Nodo>();
         Nodo nodo = new Nodo(estadoActual);
-        listaNodos.add(nodo);
         Nodo nodoHijo1;
-        Nodo arrNodo[];
+        listNodos.add(nodo);
+
+        Nodo arrNodo[];  //es lo mismo que Nodo[] arrNodo
         int i = 1;
 
         System.out.println((i++) + " - Empezando búsqueda en " + estadoActual);
@@ -33,10 +36,10 @@ public class Estrategia4 implements EstrategiaBusqueda {
                 Estado sc = p.result(estadoActual, acc);
                 System.out.println((i++) + " - RESULT(" + estadoActual + ","+ acc + ")=" + sc);
                 if (!explorados.contains(sc)) {
-                    nodoHijo1 = new Nodo(estadoActual, nodo, acc);
-                    nodo = new Nodo(estadoActual, nodo, acc);
 
-                    listaNodos.add(nodoHijo1);
+                    nodoHijo1 = new Nodo(sc, nodo, acc);
+                    nodo = new Nodo(sc, nodo, acc); //copia de nodoHijo, el cual en la proxima iteracion será padre del nuevo nodoHijo
+                    listNodos.add(nodoHijo1);
 
                     estadoActual = sc;
                     System.out.println((i++) + " - " + sc + " NO explorado");
@@ -51,10 +54,29 @@ public class Estrategia4 implements EstrategiaBusqueda {
             if (!modificado) throw new Exception("No se ha podido encontrar una solución");
         }
         System.out.println((i++) + " - FIN - " + estadoActual);
-        arrNodo = castListToArray(listaNodos);
+
+        //donde se almacenaran los nodos resultantes de reconstruye_sol
+        List<Nodo> newList = new ArrayList<Nodo>();
+        reconstruye_sol(listNodos.get(listNodos.size()-1), newList);
+
+        arrNodo = castListToArray(newList);
         return arrNodo;
     }
 
+    /*metodo al cual se le pasa un nodo conteniendo el estadoMeta ,
+    * que se encargara de reconstruir el camino desde el estadoMeta hasta el estadoInicial */
+
+    public List<Nodo> reconstruye_sol(Nodo nodo, List<Nodo> newList){
+        Nodo actualNodo = new Nodo(nodo.getEstadoNodo(), nodo.getPadreNodo(), nodo.getAccionNodo());
+        while(actualNodo != null){
+            newList.add(actualNodo);
+            actualNodo = actualNodo.getPadreNodo();
+        }
+        Collections.reverse(newList);
+        return newList;
+    }
+
+    //funcion que pasa los elementos de List<Nodo> a el array Nodo
     public Nodo[] castListToArray(List<Nodo> listNodos){
         Nodo arrNodo[] = new Nodo[listNodos.size()];
         int i;
@@ -62,10 +84,6 @@ public class Estrategia4 implements EstrategiaBusqueda {
             arrNodo[i] = listNodos.get(i);
         }
         return arrNodo;
-    }
-
-    public List<Nodo> reconstruye_sol(Nodo nodo){
-
     }
 
 }
