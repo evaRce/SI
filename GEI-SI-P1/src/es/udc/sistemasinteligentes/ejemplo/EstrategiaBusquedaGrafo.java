@@ -16,7 +16,7 @@ public class EstrategiaBusquedaGrafo implements EstrategiaBusqueda {
         ArrayList<Nodo> frontera = new ArrayList<Nodo>();
         ArrayList<Nodo> explorados = new ArrayList<Nodo>();
         Estado estadoActual = p.getEstadoInicial();
-        Nodo nodoActual;
+        Nodo nodoActual = new Nodo();
         Estado s;
         List<Nodo> listH;
 
@@ -25,17 +25,13 @@ public class EstrategiaBusquedaGrafo implements EstrategiaBusqueda {
 
         frontera.add(nodoPadre);
 
-        System.out.println((i++) + " - Empezando búsqueda en " + estadoActual);
-
         while (!frontera.isEmpty()) {
             Accion[] accionesDisponibles = p.acciones(estadoActual);
             boolean modificado = false;
-            System.out.println("La frontera no esta vacia ");
-
+            //System.out.println("La frontera no esta vacia ");
             nodoActual = pop(frontera);
-
-            System.out.println("j = " + (j++) + " nodoActual =  " + nodoActual.toString());
             s = nodoActual.getEstadoNodo();
+            System.out.println("nodoActual = " + nodoActual.toString());
             if(p.esMeta(s)){
                 break;
             } else {
@@ -48,19 +44,14 @@ public class EstrategiaBusquedaGrafo implements EstrategiaBusqueda {
                 }
             }
         }
-        System.out.println(" salio porque la frontera esta vacia");
-
-        //donde se almacenaran los nodos resultantes de reconstruye_sol
-        //List<Nodo> newList = new ArrayList<Nodo>();
-        //reconstruye_sol(nodoActual, newList);
-
-        Nodo[] arrNodo = castListToArray(explorados);
+        Nodo[] arrNodo = castListToArray(reconstruye_sol(nodoActual));
         return arrNodo;
     }
 
     /*metodo al cual se le pasa un nodo conteniendo el estadoMeta ,
      * que se encargara de reconstruir el camino desde el estadoMeta hasta el estadoInicial */
-    private List<Nodo> reconstruye_sol(Nodo nodo, List<Nodo> newList) {
+    private List<Nodo> reconstruye_sol(Nodo nodo) {
+        List<Nodo> newList = new ArrayList<Nodo>();
         Nodo actualNodo = new Nodo(nodo.getEstadoNodo(), nodo.getPadreNodo(), nodo.getAccionNodo());
         while (actualNodo != null) {
             newList.add(actualNodo);
@@ -76,7 +67,6 @@ public class EstrategiaBusquedaGrafo implements EstrategiaBusqueda {
         for (Accion acc: accionesDisponibles) {
             Estado res = p.result(nodoPadre.getEstadoNodo(), acc);
             Nodo nodo1 = new Nodo(res, nodoPadre, acc);
-            System.out.println("nodo1.toString() = " + nodo1.toString());
             sucesores.add(nodo1);
         }
         return sucesores;

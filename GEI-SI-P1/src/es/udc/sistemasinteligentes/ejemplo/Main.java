@@ -21,12 +21,12 @@ public class Main {
         }
 
 
-        /*EstrategiaBusqueda buscador2 = new EstrategiaBusquedaGrafo();
+        EstrategiaBusqueda buscador2 = new EstrategiaBusquedaGrafo();
         Nodo arrNodo2[] = buscador2.soluciona(aspiradora);
         System.out.println("\nEJERCICIO 1B");
         for(int i = 0; i < arrNodo2.length; i++){
             System.out.println("arrNodo[" + i + "] = " + arrNodo2[i] );
-        }*/
+        }
         
     }
 }
