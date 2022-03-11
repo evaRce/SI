@@ -18,8 +18,8 @@ public class Estrategia4 implements EstrategiaBusqueda {
         explorados.add(estadoActual);
 
         List<Nodo> listNodos = new ArrayList<Nodo>();
-        Nodo nodo = new Nodo(estadoActual);
-        listNodos.add(nodo);
+        Nodo nodoPadre = new Nodo(estadoActual);
+        listNodos.add(nodoPadre);
         int i = 1;
 
         System.out.println((i++) + " - Empezando búsqueda en " + estadoActual);
@@ -33,8 +33,8 @@ public class Estrategia4 implements EstrategiaBusqueda {
                 Estado sc = p.result(estadoActual, acc);
                 System.out.println((i++) + " - RESULT(" + estadoActual + ","+ acc + ")=" + sc);
                 if (!explorados.contains(sc)) {
-                    Nodo nodoHijo1 = new Nodo(sc, nodo, acc);
-                    nodo = new Nodo(sc, nodo, acc); //copia de nodoHijo, el cual en la proxima iteracion será padre del nuevo nodoHijo
+                    Nodo nodoHijo1 = new Nodo(sc, nodoPadre, acc);
+                    nodoPadre = new Nodo(sc, nodoPadre, acc); //copia de nodoHijo, el cual en la proxima iteracion será padre del nuevo nodoHijo
                     listNodos.add(nodoHijo1);
 
                     estadoActual = sc;
@@ -51,18 +51,14 @@ public class Estrategia4 implements EstrategiaBusqueda {
         }
         System.out.println((i++) + " - FIN - " + estadoActual);
 
-        //donde se almacenaran los nodos resultantes de reconstruye_sol
-        List<Nodo> newList = new ArrayList<Nodo>();
-        reconstruye_sol(listNodos.get(listNodos.size()-1), newList);
-
-        Nodo[] arrNodo = castListToArray(newList);
+        Nodo[] arrNodo = castListToArray(reconstruye_sol(listNodos.get(listNodos.size()-1)));
         return arrNodo;
     }
 
     /*metodo al cual se le pasa un nodo conteniendo el estadoMeta ,
     * que se encargara de reconstruir el camino desde el estadoMeta hasta el estadoInicial */
-
-    public List<Nodo> reconstruye_sol(Nodo nodo, List<Nodo> newList){
+    public List<Nodo> reconstruye_sol(Nodo nodo){
+        List<Nodo> newList = new ArrayList<>();
         Nodo actualNodo = new Nodo(nodo.getEstadoNodo(), nodo.getPadreNodo(), nodo.getAccionNodo());
         while(actualNodo != null){
             newList.add(actualNodo);
@@ -73,7 +69,7 @@ public class Estrategia4 implements EstrategiaBusqueda {
     }
 
     //funcion que pasa los elementos de List<Nodo> a el array Nodo
-    public Nodo[] castListToArray(List<Nodo> listNodos){
+    private Nodo[] castListToArray(List<Nodo> listNodos){
         Nodo[] arrNodo = new Nodo[listNodos.size()];
         int i;
         for(i = 0; i < listNodos.size(); i++){

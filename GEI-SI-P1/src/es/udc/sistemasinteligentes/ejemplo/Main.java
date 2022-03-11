@@ -15,9 +15,18 @@ public class Main {
 
         EstrategiaBusqueda buscador = new Estrategia4();
         Nodo arrNodo[] = buscador.soluciona(aspiradora);
+        System.out.println("\nEJERCICIO 1A");
         for(int i = 0; i < arrNodo.length; i++){
             System.out.println("arrNodo[" + i + "] = " + arrNodo[i] );
         }
+
+
+        /*EstrategiaBusqueda buscador2 = new EstrategiaBusquedaGrafo();
+        Nodo arrNodo2[] = buscador2.soluciona(aspiradora);
+        System.out.println("\nEJERCICIO 1B");
+        for(int i = 0; i < arrNodo2.length; i++){
+            System.out.println("arrNodo[" + i + "] = " + arrNodo2[i] );
+        }*/
         
     }
 }
