@@ -1,7 +1,4 @@
-package es.udc.sistemasinteligentes;
-
-import java.util.ArrayList;
-import java.util.List;
+package es.udc.sistemasinteligentes.g4_27;
 
 public interface EstrategiaBusqueda {
     /**

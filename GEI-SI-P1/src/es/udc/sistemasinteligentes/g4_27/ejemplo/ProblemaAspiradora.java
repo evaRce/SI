@@ -1,10 +1,8 @@
-package es.udc.sistemasinteligentes.ejemplo;
+package es.udc.sistemasinteligentes.g4_27.ejemplo;
 
-import es.udc.sistemasinteligentes.Accion;
-import es.udc.sistemasinteligentes.Estado;
-import es.udc.sistemasinteligentes.ProblemaBusqueda;
-
-import java.util.Arrays;
+import es.udc.sistemasinteligentes.g4_27.Accion;
+import es.udc.sistemasinteligentes.g4_27.Estado;
+import es.udc.sistemasinteligentes.g4_27.ProblemaBusqueda;
 
 public class ProblemaAspiradora extends ProblemaBusqueda {
     public static class EstadoAspiradora extends Estado {
@@ -43,7 +41,7 @@ public class ProblemaAspiradora extends ProblemaBusqueda {
         }
     }
 
-    public static class AccionAspiradora extends Accion{
+    public static class AccionAspiradora extends Accion {
         public enum Tipo {IZQ, DER, ASP};
 
         private Tipo tipo;
@@ -65,25 +63,25 @@ public class ProblemaAspiradora extends ProblemaBusqueda {
         @Override
         public Estado aplicaA(Estado es) {
             EstadoAspiradora esAs = (EstadoAspiradora)es;
-            EstadoAspiradora.PosicionRobot nuevaPosicionRobot=esAs.posicionRobot;
-            EstadoAspiradora.PosicionBasura nuevaPosicionBasura=esAs.posicionBasura;
+            EstadoAspiradora.PosicionRobot nuevaPosicionRobot = esAs.posicionRobot;
+            EstadoAspiradora.PosicionBasura nuevaPosicionBasura = esAs.posicionBasura;
 
-            if (tipo==Tipo.IZQ)
+            if (tipo == Tipo.IZQ)
                 nuevaPosicionRobot = EstadoAspiradora.PosicionRobot.IZQ;
-            else if (tipo==Tipo.DER)
+            else if (tipo == Tipo.DER)
                 nuevaPosicionRobot = EstadoAspiradora.PosicionRobot.DER;
-            else if (tipo==Tipo.ASP) {
-                if (esAs.posicionRobot==EstadoAspiradora.PosicionRobot.IZQ) { //Aspiramos izquierda
-                    if ((esAs.posicionBasura==EstadoAspiradora.PosicionBasura.DER) ||
-                            (esAs.posicionBasura==EstadoAspiradora.PosicionBasura.AMBAS)) {
+            else if (tipo == Tipo.ASP) {
+                if (esAs.posicionRobot == EstadoAspiradora.PosicionRobot.IZQ) { //Aspiramos izquierda
+                    if ((esAs.posicionBasura == EstadoAspiradora.PosicionBasura.DER) ||
+                            (esAs.posicionBasura == EstadoAspiradora.PosicionBasura.AMBAS)) {
                         nuevaPosicionBasura = EstadoAspiradora.PosicionBasura.DER;
                     }
                     else
                         nuevaPosicionBasura = EstadoAspiradora.PosicionBasura.NINGUNA;
                 }
                 else{ //Aspiramos derecha
-                    if ((esAs.posicionBasura==EstadoAspiradora.PosicionBasura.IZQ) ||
-                            (esAs.posicionBasura==EstadoAspiradora.PosicionBasura.AMBAS)) {
+                    if ((esAs.posicionBasura == EstadoAspiradora.PosicionBasura.IZQ) ||
+                            (esAs.posicionBasura == EstadoAspiradora.PosicionBasura.AMBAS)) {
                         nuevaPosicionBasura = EstadoAspiradora.PosicionBasura.IZQ;
                     }
                     else

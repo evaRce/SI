@@ -1,6 +1,4 @@
-package es.udc.sistemasinteligentes;
-
-import java.util.List;
+package es.udc.sistemasinteligentes.g4_27;
 
 public class Nodo {
     //atributos

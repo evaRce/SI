@@ -1,14 +1,12 @@
-package es.udc.sistemasinteligentes.ejemplo;
-
-import es.udc.sistemasinteligentes.*;
+package es.udc.sistemasinteligentes.g4_27;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EstrategiaBusquedaGrafo implements EstrategiaBusqueda {
+public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
 
-    public EstrategiaBusquedaGrafo() {
+    public EstrategiaBusquedaAnchura() {
     }
 
     @Override
@@ -17,35 +15,37 @@ public class EstrategiaBusquedaGrafo implements EstrategiaBusqueda {
         ArrayList<Nodo> explorados = new ArrayList<Nodo>();
         Estado estadoActual = p.getEstadoInicial();
         Nodo nodoActual = new Nodo();
-        Estado s;
+        Estado state;
         List<Nodo> listH;
 
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
-        int i = 1, j = 0;
 
-        frontera.add(nodoPadre);
+        if(p.esMeta(nodoPadre.getEstadoNodo()))
+            return castListToArray(reconstruye_sol(nodoPadre));
 
-        while (!frontera.isEmpty()) {
-            Accion[] accionesDisponibles = p.acciones(estadoActual);
-            boolean modificado = false;
-            //System.out.println("La frontera no esta vacia ");
-            nodoActual = pop(frontera);
-            s = nodoActual.getEstadoNodo();
-            System.out.println("nodoActual = " + nodoActual.toString());
-            if(p.esMeta(s)){
-                break;
-            } else {
+        while(!p.esMeta(estadoActual)){
+            frontera.add(nodoPadre);
+            while (!frontera.isEmpty()) {
+                //boolean modificado = false;
+                nodoActual = pop(frontera);
+                //state = nodoActual.getEstadoNodo();
                 explorados.add(nodoActual);
                 listH = sucesores(nodoActual, p);
+
+                externo:
                 for(Nodo n: listH){
-                    if(!containsEstado(frontera, n.getEstadoNodo()) && !containsEstado(explorados, n.getEstadoNodo())){
-                        frontera.add(n);
+                    if(p.esMeta(n.getEstadoNodo())){
+                        break externo;
+                    } else {
+                        if(!containsEstado(frontera, n.getEstadoNodo()) && !containsEstado(explorados, n.getEstadoNodo())){
+                            frontera.add(n);
+                        }
                     }
                 }
             }
         }
-        Nodo[] arrNodo = castListToArray(reconstruye_sol(nodoActual));
-        return arrNodo;
+
+        return castListToArray(reconstruye_sol(nodoActual));
     }
 
     /*metodo al cual se le pasa un nodo conteniendo el estadoMeta ,
@@ -91,9 +91,11 @@ public class EstrategiaBusquedaGrafo implements EstrategiaBusqueda {
         return false;
     }
 
+    //pop de Estructura FIFO
     private Nodo pop(List<Nodo> list){
-        Nodo n = list.get(0);
-        list.remove(0);
+        int index = list.size()-1;
+        Nodo n = list.get(index);
+        list.remove(index);
         return n;
     }
 }

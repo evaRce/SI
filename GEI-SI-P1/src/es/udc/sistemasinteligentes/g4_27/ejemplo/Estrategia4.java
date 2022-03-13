@@ -1,6 +1,6 @@
-package es.udc.sistemasinteligentes.ejemplo;
+package es.udc.sistemasinteligentes.g4_27.ejemplo;
 
-import es.udc.sistemasinteligentes.*;
+import es.udc.sistemasinteligentes.g4_27.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,8 +51,7 @@ public class Estrategia4 implements EstrategiaBusqueda {
         }
         System.out.println((i++) + " - FIN - " + estadoActual);
 
-        Nodo[] arrNodo = castListToArray(reconstruye_sol(listNodos.get(listNodos.size()-1)));
-        return arrNodo;
+        return castListToArray(reconstruye_sol(listNodos.get(listNodos.size()-1)));
     }
 
     /*metodo al cual se le pasa un nodo conteniendo el estadoMeta ,
