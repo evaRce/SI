@@ -5,18 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainEj2A {
-    public static int contadorDeCeros(int[][] matriz){
-        int i, j, cont = 0;
-        for(i = 0; i < matriz.length; i++){
-            for(j = 0; j < matriz.length; j++){
-                if(matriz[i][j] == 0)
-                    cont++;
-            }
-        }
-        System.out.println("cont = " + cont);
-        return cont;
-    }
-
     public static void main(String[] args) {
         int x;
         int y;
