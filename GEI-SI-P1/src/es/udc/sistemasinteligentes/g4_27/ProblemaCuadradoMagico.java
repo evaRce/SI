@@ -76,6 +76,10 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             this.actualPos[1] = j;
         }
 
+        public int[] getActualPos() {
+            return actualPos;
+        }
+
         private int[] getNextPos(){
             int i = this.actualPos[0];
             int j = this.actualPos[1];
@@ -110,55 +114,47 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
     }
 
     public static class AccionCuadradoMagico extends Accion{
-        private int[] posicion;
         private int num;
 
-
-        public AccionCuadradoMagico(int[] posicion, int num){
-            this.posicion = posicion;
+        public AccionCuadradoMagico(int num){
             this.num = num;
         }
 
         @Override
         public String toString() {
-            return "(" + this.posicion.toString() + ", " + Integer.toString(this.num) + ")";
+            return "(" + Integer.toString(this.num) + ")";
         }
 
         @Override
         public boolean esAplicable(Estado es) {
-            int i = this.posicion[0];
-            int j = this.posicion[1];
             EstadoCuadradoMagico esCuadrado = (EstadoCuadradoMagico)es;
-            return (esCuadrado.isValid(this.num, i, j));
+            int[] pos = esCuadrado.getActualPos();
+            return (esCuadrado.isValid(this.num, pos[0], pos[1]));
         }
 
         @Override
         public Estado aplicaA(Estado es) {
             EstadoCuadradoMagico esCuadrado = (EstadoCuadradoMagico) es;
-            int i = this.posicion[0];
-            int j = this.posicion[1];
+            int[] pos = esCuadrado.getActualPos();
+            int i = pos[0];
+            int j = pos[1];
             esCuadrado.setPosition(i, j, this.num);
 
             return esCuadrado;
         }
     }
+
     private Accion[] listaAcciones;
 
     //constructor
     public ProblemaCuadradoMagico(EstadoCuadradoMagico estadoInicial) {
         super(estadoInicial);
         int n = estadoInicial.matrizActual.size();
-        int i, j, a;
-        for (i=0; i<n; i++)
-            for (j=0; j<n; j++)
-                for (a=1; a<=n; a++)
-                    listaAcciones
-    }
-    /*public ProblemaCuadradoMagico(EstadoCuadradoMagico estadoInicial) {
-        super(estadoInicial);
+        int num;
         listaAcciones = new Accion[]{};
-        }
-    }*/
+        for (num = 1; num <= n; num++)
+            listaAcciones[num-1] = new AccionCuadradoMagico(num);
+    }
 
     @Override
     public Accion[] acciones(Estado es) {
@@ -167,11 +163,81 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
 
     @Override
     public boolean esMeta(Estado es) {
-        return true;
+        EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
+        return sumFilas(estadoInicial) &&
+                sumCols(estadoInicial) &&
+                sumDiag(estadoInicial);
     }
 
-    /*public int sumaTotal(){
-            return (n*((n*n)+1))/2;
-        }*/
+    private int sumTotal(Estado es){
+        EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
+        int n = estadoInicial.matrizActual.size();
+        return (n*((n*n)+1))/2;
+    }
+
+    private boolean sumFilas(Estado es){
+        EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
+        boolean correcto = true;
+        int n = estadoInicial.matrizActual.size();
+        int i = 0, j;
+        int sumFila = 0;
+        int sumTotal = sumTotal(estadoInicial);
+        while(i < n && correcto){
+            for(j = 0; j < n; j++)
+                sumFila += estadoInicial.matrizActual.get(i).get(j);
+            if(sumFila != sumTotal)
+                correcto = false;
+            i++;
+            sumFila = 0;
+        }
+        return correcto;
+    }
+
+    private boolean sumCols(Estado es){
+        EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
+        boolean correcto = true;
+        int n = estadoInicial.matrizActual.size();
+        int i, j = 0;
+        int sumCols = 0;
+        int sumTotal = sumTotal(estadoInicial);
+        while(j < n && correcto){
+            for(i = 0; j < n; j++)
+                sumCols += estadoInicial.matrizActual.get(j).get(i);
+            if(sumCols != sumTotal)
+                correcto = false;
+            i++;
+            sumCols = 0;
+        }
+        return correcto;
+    }
+
+    private boolean sumDiag(Estado es){
+        EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
+        boolean correcto = true;
+        int n = estadoInicial.matrizActual.size();
+        int i = 0, j = 0;
+        int sumDiag1 = 0, sumDiag2;
+        int sumTotal = sumTotal(estadoInicial);
+        while(i < n && j < n) {
+            sumDiag1 += estadoInicial.matrizActual.get(i).get(j);
+            i++;
+            j++;
+        }
+        if(sumDiag1 != sumTotal)
+            correcto = false;
+        else {
+            sumDiag2 = 0;
+            i = 0;
+            j = n - 1;
+            while(i < n && j >= 0){
+                sumDiag2 += estadoInicial.matrizActual.get(i).get(j);
+                i++;
+                j--;
+            }
+            if(sumDiag2 != sumTotal)
+                correcto = false;
+        }
+        return correcto;
+    }
 }
 
