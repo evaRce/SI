@@ -14,21 +14,24 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
         ArrayList<Nodo> frontera = new ArrayList<Nodo>();
         ArrayList<Nodo> explorados = new ArrayList<Nodo>();
         Estado estadoActual = p.getEstadoInicial();
+
         Nodo nodoActual = new Nodo();
         Estado state;
         List<Nodo> listH;
 
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
+        System.out.println("nodoPadre:");
+        System.out.println(nodoPadre.toString());
 
         if(p.esMeta(nodoPadre.getEstadoNodo()))
             return castListToArray(reconstruye_sol(nodoPadre));
 
+        frontera.add(nodoPadre);
         while(!p.esMeta(estadoActual)){
-            frontera.add(nodoPadre);
             while (!frontera.isEmpty()) {
-                //boolean modificado = false;
                 nodoActual = pop(frontera);
-                //state = nodoActual.getEstadoNodo();
+                System.out.println("NodoActual añadido ¬");
+                System.out.println(nodoActual.toString());
                 explorados.add(nodoActual);
                 listH = sucesores(nodoActual, p);
 
@@ -39,6 +42,8 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
                     } else {
                         if(!containsEstado(frontera, n.getEstadoNodo()) && !containsEstado(explorados, n.getEstadoNodo())){
                             frontera.add(n);
+                            System.out.println("Nodo añadido a frontera ~¬");
+                            System.out.println(n.toString());
                         }
                     }
                 }
@@ -93,7 +98,11 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
 
     //pop de Estructura FIFO
     private Nodo pop(List<Nodo> list){
-        int index = list.size()-1;
+        int index;
+        if(list.size() == 1)
+            index = 0;
+        else
+            index = list.size()-1;
         Nodo n = list.get(index);
         list.remove(index);
         return n;
