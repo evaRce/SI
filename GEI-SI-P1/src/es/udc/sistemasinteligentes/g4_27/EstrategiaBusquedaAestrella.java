@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
-
-    public EstrategiaBusquedaProfundidad() {
-    }
+public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
 
     @Override
-    public Nodo[] soluciona(ProblemaBusqueda p) throws Exception {
+    public Nodo[] soluciona(ProblemaBusqueda p, Heuristica h) throws Exception {
         ArrayList<Nodo> frontera = new ArrayList<Nodo>();
         ArrayList<Nodo> explorados = new ArrayList<Nodo>();
         List<Nodo> listH; //lista de sucesores
         Estado estadoActual = p.getEstadoInicial();
-        Estado state;
+        Estado state1, state2;
         Nodo nodoActual = new Nodo();
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
         boolean modificado = false;
@@ -24,19 +21,29 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         frontera.add(nodoPadre);
 
         while (!frontera.isEmpty()) {
-            nodoActual = pop(frontera);
-            state = nodoActual.getEstadoNodo();
-            if(p.esMeta(state)){
-                break;
+            nodoActual = pop(frontera);  //mirar la estructura del pop()
+            state1 = nodoActual.getEstadoNodo();
+            if(p.esMeta(state1)){
+                break ;
             } else {
                 modificado = true;
                 explorados.add(nodoActual);
                 expandNodos++;
                 listH = sucesores(nodoActual, p);
                 for(Nodo n: listH){
+                    modificado = true;
                     createdNodos++;
-                    if(!containsEstado(frontera, n.getEstadoNodo()) && !containsEstado(explorados, n.getEstadoNodo())){
-                        frontera.add(n);
+                    if(containsEstado(explorados, n.getEstadoNodo())){
+
+                    }
+                    state2 = n.getEstadoNodo();
+                    if(p.esMeta(state2)){
+                        nodoActual = n;
+                        break;
+                    } else {
+                        if(!containsEstado(frontera, n.getEstadoNodo()) ){
+                            frontera.add(n);
+                        }
                     }
                 }
             }
@@ -92,13 +99,10 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         return false;
     }
 
-    //pop de Estructura LIFO
+    //pop de Estructura FIFO
     private Nodo pop(List<Nodo> list){
-        int index = list.size()-1;
-        Nodo n = list.get(index);
-        list.remove(index);
+        Nodo n = list.get(0);
+        list.remove(0);
         return n;
     }
-
 }
-

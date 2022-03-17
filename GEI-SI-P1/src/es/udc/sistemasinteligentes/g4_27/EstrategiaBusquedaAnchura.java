@@ -13,19 +13,16 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
     public Nodo[] soluciona(ProblemaBusqueda p) throws Exception {
         ArrayList<Nodo> frontera = new ArrayList<Nodo>();
         ArrayList<Nodo> explorados = new ArrayList<Nodo>();
+        List<Nodo> listH; //lista de sucesores
         Estado estadoActual = p.getEstadoInicial();
-        int createdNodos = 1;
-        int expandNodos = 0;
-
-        Nodo nodoActual = new Nodo();
         Estado state;
-        List<Nodo> listH;
+        Nodo nodoActual = new Nodo();
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
         boolean modificado = false;
+        int createdNodos = 1, expandNodos = 0;
 
         if(p.esMeta(nodoPadre.getEstadoNodo()))
             return castListToArray(reconstruye_sol(nodoPadre));
-        int j = 0;
         frontera.add(nodoPadre);
 
         externo:
@@ -38,7 +35,8 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
             for(Nodo n: listH){
                 modificado = true;
                 createdNodos++;
-                if(p.esMeta(n.getEstadoNodo())){
+                state = n.getEstadoNodo();
+                if(p.esMeta(state)){
                     nodoActual = n;
                     break externo;
                 } else {

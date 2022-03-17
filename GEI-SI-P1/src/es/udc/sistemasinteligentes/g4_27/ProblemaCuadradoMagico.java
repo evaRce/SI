@@ -3,6 +3,7 @@ package es.udc.sistemasinteligentes.g4_27;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ProblemaCuadradoMagico extends ProblemaBusqueda{
     public static class EstadoCuadradoMagico extends Estado implements Cloneable{
@@ -212,6 +213,34 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
 
             return newEsCuadrado;
         }
+    }
+
+    public class HeuristicaCuadradoMagico extends Heuristica {
+        /*Habra que elegir el estado que conlleve menos movimientos para conseguir
+          el cuadrado magico, ya que asi no sobreestimaremos el coste.
+          Consistiria en contar los ceros que estarian en la matriz actual como
+          posiciones vacias a cubrir mas el numero de intercambios que hay que hacer
+          para llegar a meta que serían el número de n x n posiciones - las que ya
+          hay en la matriz*/
+        @Override
+        public float evalua(Estado es){
+            int cont = 0;
+            EstadoCuadradoMagico estado = (EstadoCuadradoMagico) es;
+            List<Integer> nums;
+            for(int i = 0; i < estado.matrizActual.size();i++){
+                for(int j = 0; j < estado.matrizActual.size();j++){
+                    if(estado.matrizActual.get(i).get(j) == 0){
+                        cont++;
+                    }
+                }
+            }
+            return (float)cont;
+        }
+    /*Se devuelve el numero de posiciones vacias que faltan para completar el cuadrado
+      magico,respetando las posiciones iniciales suministradas, por lo tanto nunca
+      sobreestimarias el coste real de encontrar la combinacion de las posiciones.
+      Sería consistente ya que siempre que avanzas hacia meta tienes un menor número
+      de posiciones a colocar*/
     }
 
     private Accion[] listaAcciones;

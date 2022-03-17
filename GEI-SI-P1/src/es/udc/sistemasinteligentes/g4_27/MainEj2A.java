@@ -21,16 +21,6 @@ public class MainEj2A {
         fila3.add(1);
         fila3.add(0);
 
-        /*fila1.add(2);
-        fila1.add(0);
-        fila1.add(0);
-        fila2.add(0);
-        fila2.add(0);
-        fila2.add(0);
-        fila3.add(0);
-        fila3.add(0);
-        fila3.add(0);*/
-
         matriz.add(fila1);
         matriz.add(fila2);
         matriz.add(fila3);
