@@ -24,7 +24,6 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         frontera.add(nodoPadre);
 
         while (!frontera.isEmpty()) {
-            //boolean modificado = false;
             nodoActual = pop(frontera);
             state = nodoActual.getEstadoNodo();
             if(p.esMeta(state)){
@@ -92,9 +91,5 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         return n;
     }
 
-    private List<Nodo> fronteraLifo(List<Nodo> frontera){
-        Collections.reverse(frontera);
-        return frontera;
-    }
 }
 

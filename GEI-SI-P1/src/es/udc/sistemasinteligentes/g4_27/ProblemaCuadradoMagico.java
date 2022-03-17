@@ -105,12 +105,12 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
         public boolean isValid(int num){
             int i = this.actualPos[0];
             int j = this.actualPos[1];
+            int size = this.matrizActual.size();
             if (this.matrizUsados.get(i).get(j) == null)
                 return this.matrizActual.get(i).get(j) == num;
-            else {
-                ArrayList<Integer> availables = this.getAvailableNums();
-                return availables.contains(num) && !this.matrizUsados.get(i).get(j).contains(num);
-            }
+
+            ArrayList<Integer> availables = this.getAvailableNums();
+            return availables.contains(num) && !this.matrizUsados.get(i).get(j).contains(num);
         }
 
         public void update(int num){
@@ -121,8 +121,9 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
                 this.matrizUsados.get(i).get(j).add(num);
             }
             int size = this.matrizActual.size();
-            if(i < size || j < size)
+            if(i != (size-1) || j != (size-1)) {
                 this.actualPos = getNextPos();
+            }
         }
 
         public int[] getActualPos() {
@@ -223,8 +224,8 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
         int n = estadoInicial.matrizActual.size() * estadoInicial.matrizActual.size();
         int num;
         listaAcciones = new Accion[n];
-        for (num = 1; num <= n; num++)
-            listaAcciones[num - 1] = new AccionCuadradoMagico(num);
+        for (num = 0; num < n; num++)
+            listaAcciones[num] = new AccionCuadradoMagico(num+1);
     }
 
     @Override

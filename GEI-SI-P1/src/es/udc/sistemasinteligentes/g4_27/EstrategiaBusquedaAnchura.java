@@ -20,31 +20,24 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
         List<Nodo> listH;
 
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
-        System.out.println("nodoPadre:");
-        System.out.println(nodoPadre.toString());
 
         if(p.esMeta(nodoPadre.getEstadoNodo()))
             return castListToArray(reconstruye_sol(nodoPadre));
 
         frontera.add(nodoPadre);
-        while(!p.esMeta(estadoActual)){
-            while (!frontera.isEmpty()) {
-                nodoActual = pop(frontera);
-                System.out.println("NodoActual añadido ¬");
-                System.out.println(nodoActual.toString());
-                explorados.add(nodoActual);
-                listH = sucesores(nodoActual, p);
+        externo:
+        while (!frontera.isEmpty()) {
+            nodoActual = pop(frontera);
+            explorados.add(nodoActual);
+            listH = sucesores(nodoActual, p);
 
-                externo:
-                for(Nodo n: listH){
-                    if(p.esMeta(n.getEstadoNodo())){
-                        break externo;
-                    } else {
-                        if(!containsEstado(frontera, n.getEstadoNodo()) && !containsEstado(explorados, n.getEstadoNodo())){
-                            frontera.add(n);
-                            System.out.println("Nodo añadido a frontera ~¬");
-                            System.out.println(n.toString());
-                        }
+            for(Nodo n: listH){
+                if(p.esMeta(n.getEstadoNodo())){
+                    nodoActual = n;
+                    break externo;
+                } else {
+                    if(!containsEstado(frontera, n.getEstadoNodo()) && !containsEstado(explorados, n.getEstadoNodo())){
+                        frontera.add(n);
                     }
                 }
             }
