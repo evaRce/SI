@@ -1,0 +1,19 @@
+EJERCICIO 1:
+
+ (A)
+	
+ (B)
+ 
+
+
+EJERCICIO 2:
+
+ (A)La estrategia de búsqueda en profundidad seria las más adecuada para este ProblemaCuadradoMagico,
+ 	ya que al probar una matriz parcialmente rellena, por ejemplo (4  0  2  |3  5  0  |0  1  0) donde 
+ 	las posiciones a rellenar serian las que tienen un 0, crea y expande menos nodos en comparacion 
+ 	con estrategia de búsqueda en anchura
+	
+ (B)
+ 
+ (C)
+

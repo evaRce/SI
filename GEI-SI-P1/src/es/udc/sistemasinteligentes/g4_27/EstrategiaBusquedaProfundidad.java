@@ -17,9 +17,10 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         Nodo nodoActual = new Nodo();
         Estado state;
         List<Nodo> listH;
-
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
-        int i = 1;
+        boolean modificado = false;
+        int createdNodos = 1;
+        int expandNodos = 0;
 
         frontera.add(nodoPadre);
 
@@ -29,15 +30,23 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
             if(p.esMeta(state)){
                 break;
             } else {
+                modificado = true;
                 explorados.add(nodoActual);
+                expandNodos++;
                 listH = sucesores(nodoActual, p);
                 for(Nodo n: listH){
+                    createdNodos++;
                     if(!containsEstado(frontera, n.getEstadoNodo()) && !containsEstado(explorados, n.getEstadoNodo())){
                         frontera.add(n);
                     }
                 }
             }
+            if (!modificado)
+                throw new Exception("No se ha podido encontrar una solución");
         }
+
+        System.out.println("Numero de nodos expandidos = " + expandNodos);
+        System.out.println("Numero de nodos creados = " + createdNodos);
         return castListToArray(reconstruye_sol(nodoActual));
     }
 
@@ -86,8 +95,9 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
 
     //pop de Estructura LIFO
     private Nodo pop(List<Nodo> list){
-        Nodo n = list.get(0);
-        list.remove(0);
+        int index = list.size()-1;
+        Nodo n = list.get(index);
+        list.remove(index);
         return n;
     }
 

@@ -6,8 +6,7 @@ import java.util.Arrays;
 
 public class MainEj2A {
     public static void main(String[] args) throws Exception {
-        ArrayList<ArrayList<Integer>> matriz =
-                new ArrayList<ArrayList<Integer>>();
+        ArrayList<ArrayList<Integer>> matriz = new ArrayList<ArrayList<Integer>>();
         ArrayList<Integer> fila1 = new ArrayList<Integer>();
         ArrayList<Integer> fila2 = new ArrayList<Integer>();
         ArrayList<Integer> fila3 = new ArrayList<Integer>();
@@ -43,19 +42,19 @@ public class MainEj2A {
         ProblemaBusqueda cuadrado = new ProblemaCuadradoMagico(estadoInicial);
 
         //EstrategiaBusquedaAnchura
+        System.out.println("\nEJERCICIO 2A con EstrategiaBusquedaAnchura");
         EstrategiaBusqueda estrAnchura = new EstrategiaBusquedaAnchura();
         Nodo arrNodo[] = estrAnchura.soluciona(cuadrado);
-        System.out.println("\nEJERCICIO 2A con EstrategiaBusquedaAnchura");
         for(int i = 0; i < arrNodo.length; i++){
             System.out.println("arrNodo[" + i + "] = " + arrNodo[i]);
         }
 
         //EstrategiaBusquedaProfundidad
+        System.out.println("\nEJERCICIO 2A con EstrategiaBusquedaProfundidad");
         EstrategiaBusqueda estrProfundidad = new EstrategiaBusquedaProfundidad();
         Nodo arrNodo2[] = estrProfundidad.soluciona(cuadrado);
-        System.out.println("\nEJERCICIO 2A con EstrategiaBusquedaProfundidad");
-        for(int i = 0; i < arrNodo2.length; i++){
-            System.out.println("arrNodo[" + i + "] = " + arrNodo2[i]);
+        for(int j = 0; j < arrNodo2.length; j++){
+            System.out.println("arrNodo[" + j + "] = " + arrNodo2[j]);
         }
     }
 }

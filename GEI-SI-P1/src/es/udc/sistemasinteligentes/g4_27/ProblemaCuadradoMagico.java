@@ -1,8 +1,6 @@
 package es.udc.sistemasinteligentes.g4_27;
 
-import org.w3c.dom.ranges.Range;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -246,6 +244,9 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
     @Override
     public boolean esMeta(Estado es) {
         EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
+        if(!sumFilas(estadoInicial) || !sumCols(estadoInicial) || !sumDiag(estadoInicial)){
+            return false;
+        }
         return sumFilas(estadoInicial) &&
                 sumCols(estadoInicial) &&
                 sumDiag(estadoInicial);

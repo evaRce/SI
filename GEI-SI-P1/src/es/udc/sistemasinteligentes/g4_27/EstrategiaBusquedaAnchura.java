@@ -14,24 +14,30 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
         ArrayList<Nodo> frontera = new ArrayList<Nodo>();
         ArrayList<Nodo> explorados = new ArrayList<Nodo>();
         Estado estadoActual = p.getEstadoInicial();
+        int createdNodos = 1;
+        int expandNodos = 0;
 
         Nodo nodoActual = new Nodo();
         Estado state;
         List<Nodo> listH;
-
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
+        boolean modificado = false;
 
         if(p.esMeta(nodoPadre.getEstadoNodo()))
             return castListToArray(reconstruye_sol(nodoPadre));
-
+        int j = 0;
         frontera.add(nodoPadre);
+
         externo:
         while (!frontera.isEmpty()) {
             nodoActual = pop(frontera);
             explorados.add(nodoActual);
+            expandNodos++;
             listH = sucesores(nodoActual, p);
 
             for(Nodo n: listH){
+                modificado = true;
+                createdNodos++;
                 if(p.esMeta(n.getEstadoNodo())){
                     nodoActual = n;
                     break externo;
@@ -41,8 +47,12 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
                     }
                 }
             }
+            if (!modificado)
+                throw new Exception("No se ha podido encontrar una solución");
         }
 
+        System.out.println("Numero de nodos expandidos = " + expandNodos);
+        System.out.println("Numero de nodos creados = " + createdNodos);
         return castListToArray(reconstruye_sol(nodoActual));
     }
 
@@ -91,13 +101,8 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
 
     //pop de Estructura FIFO
     private Nodo pop(List<Nodo> list){
-        int index;
-        if(list.size() == 1)
-            index = 0;
-        else
-            index = list.size()-1;
-        Nodo n = list.get(index);
-        list.remove(index);
+        Nodo n = list.get(0);
+        list.remove(0);
         return n;
     }
 }
