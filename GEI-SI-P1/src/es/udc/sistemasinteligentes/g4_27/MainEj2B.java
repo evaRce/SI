@@ -18,5 +18,16 @@ public class MainEj2B {
         fila3.add(0);
         fila3.add(0);
         fila3.add(0);
+
+        matriz.add(fila1);
+        matriz.add(fila2);
+        matriz.add(fila3);
+
+        ProblemaCuadradoMagico.EstadoCuadradoMagico estadoInicial =
+                new ProblemaCuadradoMagico.EstadoCuadradoMagico(matriz);
+
+        ProblemaBusqueda cuadrado = new ProblemaCuadradoMagico(estadoInicial);
+
+        //EstrategiaBusquedaInformada estrA = new EstrategiaBusquedaAestrella();
     }
 }

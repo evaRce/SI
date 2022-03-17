@@ -1,8 +1,6 @@
 package es.udc.sistemasinteligentes.g4_27;
 
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainEj2A {
     public static void main(String[] args) throws Exception {

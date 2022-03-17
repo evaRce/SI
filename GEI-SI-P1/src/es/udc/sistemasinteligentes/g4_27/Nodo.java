@@ -50,6 +50,16 @@ public class Nodo implements Comparable<Nodo>{
         return this.funcionF;
     }
 
+    public float setCosteNodo(float coste){
+        this.coste = coste;
+        return this.coste;
+    }
+
+    public float setFuncionFNodo(float funcionF){
+        this.funcionF = funcionF;
+        return this.funcionF;
+    }
+
     @Override
     public String toString(){
         return "(" + this.estado + ", " + this.padre +
@@ -59,6 +69,6 @@ public class Nodo implements Comparable<Nodo>{
 
     @Override
     public int compareTo(Nodo nodo) {
-        return 1;//this.getEstadoNodo().compareTo(nodo.getEstadoNodo());
+        return Float.compare(this.funcionF, nodo.getFuncionFNodo());
     }
 }

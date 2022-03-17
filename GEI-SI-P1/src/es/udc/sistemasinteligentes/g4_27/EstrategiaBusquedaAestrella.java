@@ -12,11 +12,13 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
         ArrayList<Nodo> explorados = new ArrayList<Nodo>();
         List<Nodo> listH; //lista de sucesores
         Estado estadoActual = p.getEstadoInicial();
-        Estado state1, state2;
+        Estado state1, state2, state3;
         Nodo nodoActual = new Nodo();
         Nodo nodoPadre = new Nodo(estadoActual, null, null);
         boolean modificado = false;
         int createdNodos = 1, expandNodos = 0;
+
+        float c = 0f; //q es?
 
         frontera.add(nodoPadre);
 
@@ -33,17 +35,26 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
                 for(Nodo n: listH){
                     modificado = true;
                     createdNodos++;
-                    if(containsEstado(explorados, n.getEstadoNodo())){
-
-                    }
                     state2 = n.getEstadoNodo();
-                    if(p.esMeta(state2)){
+                    if(containsEstado(explorados, state2)){
+                        n.setCosteNodo(nodoActual.getCosteNodo() + c);
+                        n.setFuncionFNodo(h.evalua(state2));
+                    } else {
+                        if(!containsEstado(frontera, state2) ){
+                            frontera.add(n);
+                        } else {
+                            float nF = 0f;
+                            if(n.getFuncionFNodo() < nF){
+
+                            }
+                        }
+                    }
+                    state3 = n.getEstadoNodo();
+                    if(p.esMeta(state3)){
                         nodoActual = n;
                         break;
                     } else {
-                        if(!containsEstado(frontera, n.getEstadoNodo()) ){
-                            frontera.add(n);
-                        }
+
                     }
                 }
             }

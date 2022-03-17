@@ -1,3 +1,5 @@
+
+
 EJERCICIO 1:
 
  (A)
@@ -8,12 +10,27 @@ EJERCICIO 1:
 
 EJERCICIO 2:
 
- (A)La estrategia de búsqueda en profundidad seria las más adecuada para este ProblemaCuadradoMagico,
- 	ya que al probar una matriz parcialmente rellena, por ejemplo (4  0  2  |3  5  0  |0  1  0) donde 
- 	las posiciones a rellenar serian las que tienen un 0, crea y expande menos nodos en comparacion 
- 	con estrategia de búsqueda en anchura
+ (A)La estrategia de búsqueda en profundidad seria las más adecuada para este 
+	ProblemaCuadradoMagico,	ya que al probar una matriz parcialmente rellena, 
+	por ejemplo (4  0  2  |3  5  0  |0  1  0) donde las posiciones a rellenar 
+	serian las que tienen un 0, crea y expande menos nodos para rellenar la 
+	matriz en comparacion con estrategia de búsqueda en anchura
 	
- (B)
+ (B)Habra que elegir el estado que conlleve menos movimientos para conseguir
+  	el cuadrado magico, ya que asi no sobreestimaremos el coste.
+  	Consistiria en contar los ceros que estarian en la matriz actual como
+  	posiciones vacias a cubrir mas el numero de intercambios que hay que hacer
+  	para llegar a meta que serían el número de n x n posiciones - las que ya
+  	hay en la matriz.
+	Se devuelve el numero de posiciones vacias que faltan para completar el cuadrado
+	magico,respetando las posiciones iniciales suministradas, por lo tanto nunca
+	sobreestimarias el coste real de encontrar la combinacion de las posiciones.
+	Sería consistente ya que siempre que avanzas hacia meta tienes un menor número
+	de posiciones a colocar.
  
  (C)
+
+
+
+modificaciones:
 
