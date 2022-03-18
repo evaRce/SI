@@ -32,5 +32,20 @@ EJERCICIO 2:
 
 
 
-modificaciones:
+modificaciones ej1:
+-crear clase nodo, fundamental
+-Estrategia4: 
+	*se trabaja con estados
+	*los estados explorados se guardaban en un nodo, el nodo se guarda en 
+	 una lista de nodos
+-EstrategiaBusquedaGrafo: 
+	*se trabaja con nodos
+	*se crea una frontera que sera una lista de nodos->donde se guardaran todos 
+	 los posibles sucesores
+	*explorados sera una lista de nodos
+	
+modificaciones ej2:	
+
+
+
 

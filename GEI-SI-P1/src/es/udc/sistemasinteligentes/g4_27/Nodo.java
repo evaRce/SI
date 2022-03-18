@@ -50,14 +50,12 @@ public class Nodo implements Comparable<Nodo>{
         return this.funcionF;
     }
 
-    public float setCosteNodo(float coste){
+    public void setCosteNodo(float coste){
         this.coste = coste;
-        return this.coste;
     }
 
-    public float setFuncionFNodo(float funcionF){
+    public void setFuncionFNodo(float funcionF){
         this.funcionF = funcionF;
-        return this.funcionF;
     }
 
     @Override
@@ -70,5 +68,44 @@ public class Nodo implements Comparable<Nodo>{
     @Override
     public int compareTo(Nodo nodo) {
         return Float.compare(this.funcionF, nodo.getFuncionFNodo());
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o)
+            return true;
+        if(o == null || getClass() != o.getClass())
+            return false;
+        Nodo n = (Nodo)o;
+        if(this.getEstadoNodo() != n.getEstadoNodo() ||
+            this.getPadreNodo() != n.getPadreNodo() ||
+            this.getAccionNodo() != n.getAccionNodo() ||
+            this.getCosteNodo() != n.getCosteNodo() ||
+            this.getFuncionFNodo() != n.getFuncionFNodo()){
+            return false;
+        }
+        return true;
+    }
+
+    /*public int hashOneNode(Nodo n){
+        int result1 = 1, valor = 0;
+        if(n != null){
+            valor = hashOneNode(n);
+
+        result1 = 31 * result1 + this.estado.hashCode();
+        result1 = 31 * result1 + valor;
+        result1 = 31 * result1 + Integer.parseInt(this.accion.toString());
+        return result1;
+    }*/
+
+    @Override
+    public int hashCode(){
+        int result = 1;
+        result = 31 * result + this.estado.hashCode();
+        result = 31 * result + this.padre.hashCode();
+        result = 31 * result + Integer.parseInt(this.accion.toString());
+        result = 31 * result + Float.floatToIntBits(this.coste);
+        result = 31 * result + Float.floatToIntBits(this.funcionF);
+        return  result;
     }
 }

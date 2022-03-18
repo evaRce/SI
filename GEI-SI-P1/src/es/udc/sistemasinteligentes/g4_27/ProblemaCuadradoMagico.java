@@ -81,6 +81,17 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             return newMatActual;
         }
 
+        public ArrayList<ArrayList<Integer>> getMatrizActual(){
+            return this.matrizActual;
+        }
+
+        private ArrayList<ArrayList<ArrayList<Integer>>> getMatrizUsados(){
+            return this.matrizUsados;
+        }
+        public int[] getActualPos(){
+            return this.actualPos;
+        }
+
         /*Consigue los numeros que no están declarados en matrizActual */
         public ArrayList<Integer> getAvailableNums(){
             ArrayList<Integer> availables = new ArrayList<Integer>();
@@ -125,16 +136,13 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             }
         }
 
-        public int[] getActualPos() {
-            return actualPos;
-        }
-
         private int[] getNextPos(){
             int i = this.actualPos[0];
             int j = this.actualPos[1];
             int size = this.matrizActual.size();
             return new int[]{i + ((j + 1) / size), (j + 1) % size};
         }
+
         public void putOnNextUsed(int num) {
             int[] next = getNextPos();
             int i = next[0];
@@ -172,8 +180,11 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             if (obj == null || getClass() != obj.getClass())
                 return false;
             EstadoCuadradoMagico e = (EstadoCuadradoMagico) obj;
-            if(matrizActual != e.matrizActual)
+            if(this.matrizActual != e.getMatrizActual() ||
+                this.matrizUsados != e.getMatrizUsados() ||
+                this.actualPos != e.getActualPos()){
                 return false;
+            }
             return true;
         }
 
