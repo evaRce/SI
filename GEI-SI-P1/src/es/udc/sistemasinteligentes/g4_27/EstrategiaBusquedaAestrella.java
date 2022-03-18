@@ -15,21 +15,20 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
         Estado state1, state2;
         Nodo nodoActual = new Nodo();
         Nodo nodoPadre = new Nodo(estadoActual, null, null, 0f, 0f);
-        boolean modificado = false;
         int createdNodos = 1, expandNodos = 0;
-
+        boolean modificado = false;
         float costeAcc; //
 
         frontera.add(nodoPadre);
 
         while (!frontera.isEmpty()) {
+            Collections.sort(frontera);
             nodoActual = pop(frontera);  //mirar la estructura del pop()
             state1 = nodoActual.getEstadoNodo();
             if(p.esMeta(state1)){
-                //modificado = true;
+                modificado = true;
                 break ;
             } else {
-
                 explorados.add(nodoActual);
                 expandNodos++;
                 listH = sucesores(nodoActual, p);
@@ -44,23 +43,25 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
                             Nodo duplicatedNodo = getDuplicateState(frontera, state2);
                             if(n.getFuncionFNodo() < duplicatedNodo.getFuncionFNodo()){
                                 eliminarElemento(frontera, duplicatedNodo);
+                                frontera.add(n);
                             }
+                        } else {
+                            frontera.add(n);
                         }
-                        frontera.add(n);
                     }
                 }
             }
-            /*if (!modificado)
-                throw new Exception("No se ha podido encontrar una solución");*/
         }
+        if (!modificado)
+            throw new Exception("No se ha podido encontrar una solución");
 
         System.out.println("Numero de nodos expandidos = " + expandNodos);
         System.out.println("Numero de nodos creados = " + createdNodos);
         return castListToArray(reconstruye_sol(nodoActual));
     }
 
-    /*metodo al cual se le pasa un nodo conteniendo el estadoMeta ,
-     * que se encargara de reconstruir el camino desde el estadoMeta hasta el estadoInicial */
+    /*se le pasa un nodo conteniendo el estadoMeta ,que se encargara de reconstruir
+      el camino desde el estadoMeta hasta el estadoInicial */
     private List<Nodo> reconstruye_sol(Nodo nodo) {
         List<Nodo> newList = new ArrayList<Nodo>();
         Nodo actualNodo = new Nodo(nodo.getEstadoNodo(), nodo.getPadreNodo(), nodo.getAccionNodo());
@@ -72,10 +73,10 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
         return newList;
     }
 
+    //a partir de una nodoPadre genera todos sus posibles sucesores
     private List<Nodo> sucesores(Nodo nodoPadre, ProblemaBusqueda p){
         List<Nodo> sucesores = new ArrayList<Nodo>();
         Accion[] accionesDisponibles = p.acciones(nodoPadre.getEstadoNodo());
-        //float nodo1Coste = 0f;
         for (Accion acc: accionesDisponibles) {
             Estado res = p.result(nodoPadre.getEstadoNodo(), acc);
             Nodo nodo1 = new Nodo(res, nodoPadre, acc, 0f, 0f);
@@ -84,7 +85,7 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
         return sucesores;
     }
 
-    //funcion que pasa los elementos de List<Nodo> a el array Nodo
+    //pasa los elementos de List<Nodo> a el array Nodo
     private Nodo[] castListToArray(List<Nodo> listNodos) {
         Nodo[] arrNodo = new Nodo[listNodos.size()];
         int i;
@@ -94,6 +95,7 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
         return arrNodo;
     }
 
+    //comprueba si dado un estado, este esta en listNodo
     private boolean containsEstado(List<Nodo> listNodo, Estado estado){
         for(Nodo n: listNodo){
             if(n.getEstadoNodo().equals(estado))
@@ -102,41 +104,36 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
         return false;
     }
 
-    //pop del elemento con menor funcion de evaluacion
+    //pop del elemento con menor funcion de evaluacion-
     private Nodo pop(List<Nodo> list){
-        List<Float> listFunF = new ArrayList<Float>();
-        Nodo n = new Nodo();
-        float min, min2;
-        int i, j;
-        for(i = 0; i < list.size(); i++){
-            listFunF.add(list.get(i).getFuncionFNodo());
-        }
-        Collections.sort(listFunF);
-        min = listFunF.get(0);
-        for(j = 0; j < list.size(); j++){
-            min2 = list.get(j).getFuncionFNodo();
-            if(min2 == min) {
-                n = list.get(j);
-                list.remove(j);
-            }
-        }
+        Nodo n;
+        n = list.get(0);
+        list.remove(0);
         return n;
     }
 
+    //dado un estado comprueba si hay otro nodo en frontera con el mismo estado
+    //si lo hay devuelve el nodo
     private Nodo getDuplicateState(List<Nodo> frontera, Estado estado){
         Nodo duplicatedNodo = new Nodo();
-        for(Nodo n : frontera){
-            if(n.getEstadoNodo().equals(estado))
+        for(Nodo n : frontera) {
+            if (n.getEstadoNodo().equals(estado)){
                 duplicatedNodo = n;
+                break;
+            }
         }
         return duplicatedNodo;
     }
 
+    //elimina un nodo(n) de la lista de nodos(list)
     private void eliminarElemento(List<Nodo> list, Nodo n){
         int i;
-        for(i = 0; i < list.size(); i++){
-            if(list.get(i).equals(n))
+        for(Nodo nodo : list){
+            if(nodo.equals(n)) {
+                i = list.indexOf(nodo);
                 list.remove(i);
+                break;
+            }
         }
     }
 }

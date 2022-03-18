@@ -21,8 +21,10 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
         boolean modificado = false;
         int createdNodos = 1, expandNodos = 0;
 
-        if(p.esMeta(nodoPadre.getEstadoNodo()))
+        if(p.esMeta(nodoPadre.getEstadoNodo())) {
+            modificado = true;
             return castListToArray(reconstruye_sol(nodoPadre));
+        }
         frontera.add(nodoPadre);
 
         externo:
@@ -33,10 +35,10 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
             listH = sucesores(nodoActual, p);
 
             for(Nodo n: listH){
-                modificado = true;
                 createdNodos++;
                 state = n.getEstadoNodo();
                 if(p.esMeta(state)){
+                    modificado = true;
                     nodoActual = n;
                     break externo;
                 } else {
@@ -45,9 +47,9 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
                     }
                 }
             }
-            if (!modificado)
-                throw new Exception("No se ha podido encontrar una solución");
         }
+        if (!modificado)
+            throw new Exception("No se ha podido encontrar una solución");
 
         System.out.println("Numero de nodos expandidos = " + expandNodos);
         System.out.println("Numero de nodos creados = " + createdNodos);
@@ -67,6 +69,7 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
         return newList;
     }
 
+    //a partir de una nodoPadre genera todos sus posibles sucesores
     private List<Nodo> sucesores(Nodo nodoPadre, ProblemaBusqueda p){
         List<Nodo> sucesores = new ArrayList<Nodo>();
         Accion[] accionesDisponibles = p.acciones(nodoPadre.getEstadoNodo());
@@ -78,7 +81,7 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
         return sucesores;
     }
 
-    //funcion que pasa los elementos de List<Nodo> a el array Nodo
+    //pasa los elementos de List<Nodo> a el array Nodo
     private Nodo[] castListToArray(List<Nodo> listNodos) {
         Nodo[] arrNodo = new Nodo[listNodos.size()];
         int i;
@@ -88,6 +91,7 @@ public class EstrategiaBusquedaAnchura implements EstrategiaBusqueda {
         return arrNodo;
     }
 
+    //comprueba si dado un estado, este esta en listNodo
     private boolean containsEstado(List<Nodo> listNodo, Estado estado){
         for(Nodo n: listNodo){
             if(n.getEstadoNodo() == estado){

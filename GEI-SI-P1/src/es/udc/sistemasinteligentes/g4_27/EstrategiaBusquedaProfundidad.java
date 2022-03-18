@@ -27,9 +27,9 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
             nodoActual = pop(frontera);
             state = nodoActual.getEstadoNodo();
             if(p.esMeta(state)){
+                modificado = true;
                 break;
             } else {
-                modificado = true;
                 explorados.add(nodoActual);
                 expandNodos++;
                 listH = sucesores(nodoActual, p);
@@ -40,17 +40,17 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
                     }
                 }
             }
-            if (!modificado)
-                throw new Exception("No se ha podido encontrar una solución");
         }
+        if (!modificado)
+            throw new Exception("No se ha podido encontrar una solución");
 
         System.out.println("Numero de nodos expandidos = " + expandNodos);
         System.out.println("Numero de nodos creados = " + createdNodos);
         return castListToArray(reconstruye_sol(nodoActual));
     }
 
-    /*metodo al cual se le pasa un nodo conteniendo el estadoMeta ,
-     * que se encargara de reconstruir el camino desde el estadoMeta hasta el estadoInicial */
+    /*se le pasa un nodo conteniendo el estadoMeta ,que se encargara de reconstruir el camino
+     desde el estadoMeta hasta el estadoInicial */
     private List<Nodo> reconstruye_sol(Nodo nodo) {
         List<Nodo> newList = new ArrayList<Nodo>();
         Nodo actualNodo = new Nodo(nodo.getEstadoNodo(), nodo.getPadreNodo(), nodo.getAccionNodo());
@@ -62,6 +62,7 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         return newList;
     }
 
+    //metodo que a partir de una nodoPadre genera todos sus posibles sucesores
     private List<Nodo> sucesores(Nodo nodoPadre, ProblemaBusqueda p){
         List<Nodo> sucesores = new ArrayList<Nodo>();
         Accion[] accionesDisponibles = p.acciones(nodoPadre.getEstadoNodo());
@@ -73,7 +74,7 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         return sucesores;
     }
 
-    //funcion que pasa los elementos de List<Nodo> a el array Nodo
+    //metodo que pasa los elementos de List<Nodo> a el array Nodo
     private Nodo[] castListToArray(List<Nodo> listNodos) {
         Nodo[] arrNodo = new Nodo[listNodos.size()];
         int i;
@@ -83,6 +84,7 @@ public class EstrategiaBusquedaProfundidad implements EstrategiaBusqueda {
         return arrNodo;
     }
 
+    //comprueba si dado un estado, este esta en listNodo
     private boolean containsEstado(List<Nodo> listNodo, Estado estado){
         for(Nodo n: listNodo){
             if(n.getEstadoNodo() == estado){

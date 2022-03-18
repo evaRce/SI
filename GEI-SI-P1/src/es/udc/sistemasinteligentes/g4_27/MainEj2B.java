@@ -9,6 +9,7 @@ public class MainEj2B {
         ArrayList<Integer> fila2 = new ArrayList<Integer>();
         ArrayList<Integer> fila3 = new ArrayList<Integer>();
         //Inicializar matriz
+
         fila1.add(2);
         fila1.add(0);
         fila1.add(0);
@@ -25,8 +26,8 @@ public class MainEj2B {
 
         ProblemaCuadradoMagico.EstadoCuadradoMagico estadoInicial =
                 new ProblemaCuadradoMagico.EstadoCuadradoMagico(matriz);
-        ProblemaCuadradoMagico.HeuristicaCuadradoMagico heuristicaCuadrado =
-                new ProblemaCuadradoMagico.HeuristicaCuadradoMagico();
+        HeuristicaCuadradoMagico heuristicaCuadrado =
+                new HeuristicaCuadradoMagico();
 
         ProblemaBusqueda cuadrado = new ProblemaCuadradoMagico(estadoInicial);
 

@@ -67,7 +67,15 @@ public class Nodo implements Comparable<Nodo>{
 
     @Override
     public int compareTo(Nodo nodo) {
-        return Float.compare(this.funcionF, nodo.getFuncionFNodo());
+        if(Integer.parseInt(this.accion.toString()) <
+                Integer.parseInt(nodo.getAccionNodo().toString())){
+            return -1;
+        } else if(Integer.parseInt(this.accion.toString()) ==
+                Integer.parseInt(nodo.getAccionNodo().toString())){
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     @Override
@@ -86,17 +94,6 @@ public class Nodo implements Comparable<Nodo>{
         }
         return true;
     }
-
-    /*public int hashOneNode(Nodo n){
-        int result1 = 1, valor = 0;
-        if(n != null){
-            valor = hashOneNode(n);
-
-        result1 = 31 * result1 + this.estado.hashCode();
-        result1 = 31 * result1 + valor;
-        result1 = 31 * result1 + Integer.parseInt(this.accion.toString());
-        return result1;
-    }*/
 
     @Override
     public int hashCode(){

@@ -51,7 +51,10 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             }
         }
 
-        public ArrayList<ArrayList<ArrayList<Integer>>> copyMatUsados(ArrayList<ArrayList<ArrayList<Integer>>> matrizUsados){
+        //copia todos los elementos de matrizUsados a una nueva matriz
+        public ArrayList<ArrayList<ArrayList<Integer>>> copyMatUsados(
+                ArrayList<ArrayList<ArrayList<Integer>>> matrizUsados){
+
             ArrayList<ArrayList<ArrayList<Integer>>> newMatUsados = new ArrayList<ArrayList<ArrayList<Integer>>>();
             for(ArrayList<ArrayList<Integer>> fila : matrizUsados){
                 ArrayList<ArrayList<Integer>> newFila = new ArrayList<ArrayList<Integer>>();
@@ -68,6 +71,7 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             return newMatUsados;
         }
 
+        //copia todos los elementos de matrizUsados a una nueva matriz
         public ArrayList<ArrayList<Integer>> copyMatActual(ArrayList<ArrayList<Integer>> matrizActual){
             ArrayList<ArrayList<Integer>> newMatActual = new ArrayList<ArrayList<Integer>>();
             for(ArrayList<Integer> fila : matrizActual){
@@ -123,6 +127,8 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             return availables.contains(num) && !this.matrizUsados.get(i).get(j).contains(num);
         }
 
+        /*actualiza matrizActual y matrizUsados con el numero pasado por parametro si es que
+          es un numero que no está en matrizActual ni en matrizUsados*/
         public void update(int num){
             int i = this.actualPos[0];
             int j = this.actualPos[1];
@@ -136,6 +142,7 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             }
         }
 
+        //devuelve la siguiente posicion
         private int[] getNextPos(){
             int i = this.actualPos[0];
             int j = this.actualPos[1];
@@ -143,6 +150,8 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             return new int[]{i + ((j + 1) / size), (j + 1) % size};
         }
 
+        /*guarda en matrizUsados el numero que se puede establecer en la siguiente posicion a
+          la actual
         public void putOnNextUsed(int num) {
             int[] next = getNextPos();
             int i = next[0];
@@ -150,7 +159,7 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
             int size = this.matrizActual.size();
             if(i < size && j < size && this.matrizUsados.get(i).get(j) != null)
                 this.matrizUsados.get(i).get(j).add(Integer.valueOf(num));
-        }
+        }*/
 
         @Override
         public EstadoCuadradoMagico clone(){
@@ -206,7 +215,7 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
 
         @Override
         public String toString() {
-            return "[" + Integer.toString(this.num) + "]";
+            return Integer.toString(this.num);
         }
 
         @Override
@@ -219,30 +228,11 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
         public Estado aplicaA(Estado es) {
             EstadoCuadradoMagico esCuadrado = (EstadoCuadradoMagico) es;
             EstadoCuadradoMagico newEsCuadrado = esCuadrado.clone();
-            esCuadrado.putOnNextUsed(this.num);
+            //esCuadrado.putOnNextUsed(this.num);
             newEsCuadrado.update(this.num);
 
             return newEsCuadrado;
         }
-    }
-
-    public static class HeuristicaCuadradoMagico extends Heuristica {
-        public HeuristicaCuadradoMagico(){}
-
-        @Override
-        public float evalua(Estado es){
-            int cont = 0;
-            EstadoCuadradoMagico estado = (EstadoCuadradoMagico) es;
-            for(int i = 0; i < estado.matrizActual.size();i++){
-                for(int j = 0; j < estado.matrizActual.size();j++){
-                    if(estado.matrizActual.get(i).get(j) == 0){
-                        cont++;
-                    }
-                }
-            }
-            return (float)cont;
-        }
-
     }
 
     private Accion[] listaAcciones;
@@ -278,30 +268,30 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
         if(!sumFilas(estadoInicial) || !sumCols(estadoInicial) || !sumDiag(estadoInicial)){
             return false;
         }
-        return sumFilas(estadoInicial) &&
-                sumCols(estadoInicial) &&
-                sumDiag(estadoInicial);
+        return true;
     }
 
     private int sumTotal(Estado es){
         EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
-        int n = estadoInicial.matrizActual.size();
+        int n = estadoInicial.getMatrizActual().size();
         return (n*((n*n)+1))/2;
     }
+
 
     private boolean sumFilas(Estado es){
         EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
         boolean correcto = true;
-        int n = estadoInicial.matrizActual.size();
-        int i = 0, j;
+        int n = estadoInicial.getMatrizActual().size();
+        int i , j;
         int sumFila = 0;
         int sumTotal = sumTotal(estadoInicial);
-        while(i < n && correcto){
+        for(i = 0; i < n; i++){
             for(j = 0; j < n; j++)
-                sumFila += estadoInicial.matrizActual.get(i).get(j);
-            if(sumFila != sumTotal)
+                sumFila += estadoInicial.getMatrizActual().get(i).get(j);
+            if(sumFila != sumTotal){
                 correcto = false;
-            i++;
+                break;
+            }
             sumFila = 0;
         }
         return correcto;
@@ -310,16 +300,17 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
     private boolean sumCols(Estado es){
         EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
         boolean correcto = true;
-        int n = estadoInicial.matrizActual.size();
-        int i, j = 0;
+        int n = estadoInicial.getMatrizActual().size();
+        int i, j;
         int sumCols = 0;
         int sumTotal = sumTotal(estadoInicial);
-        while(j < n && correcto){
-            for(i = 0; j < n; j++)
-                sumCols += estadoInicial.matrizActual.get(j).get(i);
-            if(sumCols != sumTotal)
+        for(i = 0; i < n; i++){
+            for(j = 0; j < n; j++)
+                sumCols += estadoInicial.getMatrizActual().get(j).get(i);
+            if(sumCols != sumTotal) {
                 correcto = false;
-            i++;
+                break;
+            }
             sumCols = 0;
         }
         return correcto;
@@ -328,23 +319,22 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
     private boolean sumDiag(Estado es){
         EstadoCuadradoMagico estadoInicial = (EstadoCuadradoMagico)es;
         boolean correcto = true;
-        int n = estadoInicial.matrizActual.size();
+        int n = estadoInicial.getMatrizActual().size();
         int i = 0, j = 0;
-        int sumDiag1 = 0, sumDiag2;
+        int sumDiag1 = 0, sumDiag2 = 0;
         int sumTotal = sumTotal(estadoInicial);
         while(i < n && j < n) {
-            sumDiag1 += estadoInicial.matrizActual.get(i).get(j);
+            sumDiag1 += estadoInicial.getMatrizActual().get(i).get(j);
             i++;
             j++;
         }
-        if(sumDiag1 != sumTotal)
+        if(sumDiag1 != sumTotal) {
             correcto = false;
-        else {
-            sumDiag2 = 0;
+        } else {
             i = 0;
             j = n - 1;
             while(i < n && j >= 0){
-                sumDiag2 += estadoInicial.matrizActual.get(i).get(j);
+                sumDiag2 += estadoInicial.getMatrizActual().get(i).get(j);
                 i++;
                 j--;
             }
