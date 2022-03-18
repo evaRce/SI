@@ -18,7 +18,7 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
         boolean modificado = false;
         int createdNodos = 1, expandNodos = 0;
 
-        float costeAcc = 0f; //
+        float costeAcc; //
 
         frontera.add(nodoPadre);
 
@@ -26,14 +26,14 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
             nodoActual = pop(frontera);  //mirar la estructura del pop()
             state1 = nodoActual.getEstadoNodo();
             if(p.esMeta(state1)){
+                //modificado = true;
                 break ;
             } else {
-                modificado = true;
+
                 explorados.add(nodoActual);
                 expandNodos++;
                 listH = sucesores(nodoActual, p);
                 for(Nodo n: listH){
-                    modificado = true;
                     createdNodos++;
                     state2 = n.getEstadoNodo();
                     costeAcc = n.getAccionNodo().getCoste();
@@ -50,8 +50,8 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
                     }
                 }
             }
-            if (!modificado)
-                throw new Exception("No se ha podido encontrar una solución");
+            /*if (!modificado)
+                throw new Exception("No se ha podido encontrar una solución");*/
         }
 
         System.out.println("Numero de nodos expandidos = " + expandNodos);
@@ -106,18 +106,18 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
     private Nodo pop(List<Nodo> list){
         List<Float> listFunF = new ArrayList<Float>();
         Nodo n = new Nodo();
-        float min;
+        float min, min2;
         int i, j;
         for(i = 0; i < list.size(); i++){
-            listFunF.add(Float.valueOf(list.get(i).getFuncionFNodo()));
+            listFunF.add(list.get(i).getFuncionFNodo());
         }
         Collections.sort(listFunF);
         min = listFunF.get(0);
         for(j = 0; j < list.size(); j++){
-            if(list.get(i).getFuncionFNodo() == min) {
-                n = list.get(i);
-                list.remove(i);
-                return n;
+            min2 = list.get(j).getFuncionFNodo();
+            if(min2 == min) {
+                n = list.get(j);
+                list.remove(j);
             }
         }
         return n;
@@ -126,18 +126,17 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
     private Nodo getDuplicateState(List<Nodo> frontera, Estado estado){
         Nodo duplicatedNodo = new Nodo();
         for(Nodo n : frontera){
-            if(n.getEstadoNodo().equals(estado))
-                duplicatedNodo = duplicatedNodo;
+            if(containsEstado(frontera, n.getEstadoNodo()))
+                duplicatedNodo = n;
         }
         return duplicatedNodo;
     }
 
-    private List<Nodo> eliminarElemento(List<Nodo> list, Nodo n){
+    private void eliminarElemento(List<Nodo> list, Nodo n){
         int i;
         for(i = 0; i < list.size(); i++){
             if(list.get(i).equals(n))
                 list.remove(i);
         }
-        return list;
     }
 }

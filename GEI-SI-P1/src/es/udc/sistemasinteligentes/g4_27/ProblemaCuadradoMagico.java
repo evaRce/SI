@@ -226,7 +226,9 @@ public class ProblemaCuadradoMagico extends ProblemaBusqueda{
         }
     }
 
-    public class HeuristicaCuadradoMagico extends Heuristica {
+    public static class HeuristicaCuadradoMagico extends Heuristica {
+        public HeuristicaCuadradoMagico(){}
+
         @Override
         public float evalua(Estado es){
             int cont = 0;

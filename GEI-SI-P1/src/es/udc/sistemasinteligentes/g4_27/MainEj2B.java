@@ -25,9 +25,16 @@ public class MainEj2B {
 
         ProblemaCuadradoMagico.EstadoCuadradoMagico estadoInicial =
                 new ProblemaCuadradoMagico.EstadoCuadradoMagico(matriz);
+        ProblemaCuadradoMagico.HeuristicaCuadradoMagico heuristicaCuadrado =
+                new ProblemaCuadradoMagico.HeuristicaCuadradoMagico();
 
         ProblemaBusqueda cuadrado = new ProblemaCuadradoMagico(estadoInicial);
 
-        //EstrategiaBusquedaInformada estrA = new EstrategiaBusquedaAestrella();
+        System.out.println("\nEJERCICIO 2B con EstrategiaBusquedaAestrella");
+        EstrategiaBusquedaInformada estrAestr = new EstrategiaBusquedaAestrella();
+        Nodo arrNodo[] = estrAestr.soluciona(cuadrado, heuristicaCuadrado);
+        for(int i = 0; i < arrNodo.length; i++){
+            System.out.println("arrNodo[" + i + "] = " + arrNodo[i]);
+        }
     }
 }
