@@ -126,7 +126,7 @@ public class EstrategiaBusquedaAestrella implements EstrategiaBusquedaInformada{
     private Nodo getDuplicateState(List<Nodo> frontera, Estado estado){
         Nodo duplicatedNodo = new Nodo();
         for(Nodo n : frontera){
-            if(containsEstado(frontera, n.getEstadoNodo()))
+            if(n.getEstadoNodo().equals(estado))
                 duplicatedNodo = n;
         }
         return duplicatedNodo;
